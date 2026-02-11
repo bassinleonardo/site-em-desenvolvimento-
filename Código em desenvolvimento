@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>BASSIN | Sneakers • Apparel • Watches</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#0f2027;
+    color:#fff;
+}
+header{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    text-align:center;
+    padding:30px 20px;
+}
+header img{
+    width:140px;
+    margin-bottom:10px;
+}
+header h1{
+    letter-spacing:4px;
+    margin-bottom:5px;
+}
+header p{
+    opacity:.85;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.search{
+    text-align:center;
+    margin-bottom:30px;
+}
+.search input{
+    width:260px;
+    padding:10px;
+    border-radius:6px;
+    border:none;
+}
+
+.produtos{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.produto{
+    background:#fff;
+    color:#000;
+    border-radius:10px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 10px 20px rgba(0,0,0,.25);
+}
+.produto img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:8px;
+}
+.produto h3{
+    margin:10px 0;
+}
+.produto span{
+    font-size:18px;
+    font-weight:bold;
+    color:#2c7a2c;
+}
+.produto button{
+    margin-top:10px;
+    padding:10px 15px;
+    border:none;
+    background:#111;
+    color:#fff;
+    border-radius:6px;
+    cursor:pointer;
+}
+.produto button:hover{
+    background:#000;
+}
+
+.carrinho{
+    background:#fff;
+    color:#000;
+    margin-top:40px;
+    padding:20px;
+    border-radius:10px;
+}
+.item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+.item button{
+    background:#c0392b;
+    border:none;
+    color:#fff;
+    padding:5px 10px;
+    border-radius:5px;
+    cursor:pointer;
+}
+.total{
+    font-size:22px;
+    margin-top:15px;
+    font-weight:bold;
+}
+.finalizar{
+    margin-top:15px;
+    width:100%;
+    padding:12px;
+    background:#25d366;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+footer{
+    text-align:center;
+    padding:15px;
+    margin-top:40px;
+    background:#111;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <img src="logo.png" alt="Bassin Logo">
+    <h1>BASSIN</h1>
+    <p>Sneakers • Apparel • Watches</p>
+</header>
+
+<div class="container">
+
+    <div class="search">
+        <input type="search" id="busca" placeholder="Buscar produto..." onkeyup="filtrar()">
+    </div>
+
+    <div class="produtos" id="produtos"></div>
+
+    <div class="carrinho">
+        <h2>🛒 Carrinho</h2>
+        <div id="itens"></div>
+        <div class="total">Total: R$ <span id="total">0.00</span></div>
+        <button class="finalizar" onclick="finalizar()">Finalizar no WhatsApp</button>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 BASSIN — Todos os direitos reservados
+</footer>
+
+<script>
+const produtos=[
+ {nome:"Sneaker Premium",preco:499.90,img:"https://via.placeholder.com/400x300"},
+ {nome:"Relógio Luxo",preco:899.90,img:"https://via.placeholder.com/400x300"},
+ {nome:"Camiseta Street",preco:129.90,img:"https://via.placeholder.com/400x300"},
+ {nome:"Boné Gold",preco:99.90,img:"https://via.placeholder.com/400x300"},
+ {nome:"Jaqueta Urban",preco:349.90,img:"https://via.placeholder.com/400x300"}
+];
+
+let carrinho=[];
+
+function carregar(lista=produtos){
+ const div=document.getElementById("produtos");
+ div.innerHTML="";
+ lista.forEach(p=>{
+  div.innerHTML+=`
+   <div class="produto">
+    <img src="${p.img}">
+    <h3>${p.nome}</h3>
+    <span>R$ ${p.preco.toFixed(2)}</span>
+    <button onclick="add('${p.nome}',${p.preco})">Adicionar</button>
+   </div>`;
+ });
+}
+
+function add(nome,preco){
+ carrinho.push({nome,preco});
+ atualizar();
+}
+
+function atualizar(){
+ const itens=document.getElementById("itens");
+ itens.innerHTML="";
+ let total=0;
+ carrinho.forEach((i,idx)=>{
+  total+=i.preco;
+  itens.innerHTML+=`
+   <div class="item">
+    <span>${i.nome} - R$ ${i.preco.toFixed(2)}</span>
+    <button onclick="remover(${idx})">X</button>
+   </div>`;
+ });
+ document.getElementById("total").innerText=total.toFixed(2);
+}
+
+function remover(i){
+ carrinho.splice(i,1);
+ atualizar();
+}
+
+function filtrar(){
+ const t=document.getElementById("busca").value.toLowerCase();
+ carregar(produtos.filter(p=>p.nome.toLowerCase().includes(t)));
+}
+
+function finalizar(){
+ if(!carrinho.length){alert("Carrinho vazio");return;}
+ let msg="Olá, quero finalizar minha compra:%0A";
+ let total=0;
+ carrinho.forEach(i=>{
+  msg+=`- ${i.nome} (R$ ${i.preco.toFixed(2)})%0A`;
+  total+=i.preco;
+ });
+ msg+=`%0ATotal: R$ ${total.toFixed(2)}`;
+ window.open("https://wa.me/5599999999999?text="+msg,"_blank");
+}
+
+carregar();
+</script>
+
+</body>
+</html>
