@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BASSIN | Official Street Luxury</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#fff;
+    color:#111;
+    transition:background .4s ease, color .4s ease;
+}
+
+/* DARK MODE */
+body.dark{
+    background:#0f0f0f;
+    color:#f5f5f5;
+}
+
+body.dark nav{
+    background:#0f0f0f;
+    border-bottom:1px solid #222;
+}
+
+body.dark nav a{
+    color:#f5f5f5;
+}
+
+body.dark .card{
+    background:#161616;
+    padding:15px;
+}
+
+body.dark footer{
+    background:#000;
+}
+
+/* NAVBAR */
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 40px;
+    position:fixed;
+    width:100%;
+    background:#fff;
+    z-index:1000;
+    border-bottom:1px solid #eee;
+    transition:.4s;
+}
+
+.logo{
+    font-weight:900;
+    font-size:22px;
+    letter-spacing:3px;
+}
+
+nav ul{
+    display:flex;
+    gap:30px;
+    list-style:none;
+}
+
+nav a{
+    text-decoration:none;
+    color:#111;
+    font-weight:600;
+    font-size:14px;
+    transition:.3s;
+}
+
+/* BOTÃO DARK MODE */
+.toggle{
+    position:fixed;
+    top:22px;
+    right:20px;
+    width:48px;
+    height:24px;
+    background:#ddd;
+    border-radius:30px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    padding:3px;
+    transition:.3s;
+    z-index:2000;
+}
+
+.toggle::before{
+    content:"";
+    width:18px;
+    height:18px;
+    background:#fff;
+    border-radius:50%;
+    transition:.3s;
+}
+
+body.dark .toggle{
+    background:#333;
+}
+
+body.dark .toggle::before{
+    transform:translateX(24px);
+    background:#000;
+}
+
+/* HERO */
+.hero{
+    height:100vh;
+    background:url("https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600") center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    padding:0 60px;
+    margin-top:80px;
+    color:#fff;
+}
+
+.hero-content{
+    max-width:600px;
+}
+
+.hero h1{
+    font-size:60px;
+    font-weight:900;
+    line-height:1.1;
+}
+
+.hero p{
+    margin:20px 0;
+    font-size:18px;
+}
+
+.hero button{
+    padding:15px 40px;
+    border:none;
+    background:#000;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* SECTION */
+.section{
+    padding:100px 60px;
+}
+
+.section-title{
+    font-size:40px;
+    font-weight:900;
+    margin-bottom:50px;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:40px;
+}
+
+.card{
+    cursor:pointer;
+    transition:.4s;
+}
+
+.card img{
+    width:100%;
+    height:350px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin-top:15px;
+    font-weight:700;
+}
+
+.card p{
+    margin-top:5px;
+    font-weight:600;
+}
+
+.card:hover{
+    transform:scale(1.03);
+}
+
+/* FOOTER */
+footer{
+    background:#111;
+    color:#fff;
+    text-align:center;
+    padding:40px;
+    margin-top:80px;
+}
+
+@media(max-width:768px){
+    .hero h1{
+        font-size:40px;
+    }
+    nav{
+        padding:20px;
+    }
+    .section{
+        padding:80px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toggle" id="themeToggle"></div>
+
+<nav>
+<div class="logo">BASSIN</div>
+<ul>
+<li><a href="#">Lançamentos</a></li>
+<li><a href="#">Masculino</a></li>
+<li><a href="#">Feminino</a></li>
+<li><a href="#">Coleções</a></li>
+</ul>
+</nav>
+
+<section class="hero">
+<div class="hero-content">
+<h1>JUST OWN IT.</h1>
+<p>Performance. Style. Street Luxury.</p>
+<button>Comprar Agora</button>
+</div>
+</section>
+
+<section class="section">
+<div class="section-title">Lançamentos</div>
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=800">
+<h3>Nike Air Jordan</h3>
+<p>R$ 799,90</p>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800">
+<h3>Camiseta Street Oversized</h3>
+<p>R$ 179,90</p>
+</div>
+
+<div class="card">
+<img src="nike_bone_h86_futura_washed_branco_255_1_e12416b44d5bc7f08def4c27f25fd6b2.webp">
+<h3>Boné Nike H86 Futura</h3>
+<p>R$ 199,90</p>
+</div>
+
+</div>
+</section>
+
+<footer>
+© 2026 BASSIN — Official Street Luxury Brand
+</footer>
+
+<script>
+const toggle = document.getElementById("themeToggle");
+
+if(localStorage.getItem("theme") === "dark"){
+    document.body.classList.add("dark");
+}
+
+toggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+
+    if(document.body.classList.contains("dark")){
+        localStorage.setItem("theme","dark");
+    } else {
+        localStorage.setItem("theme","light");
+    }
+});
+</script>
+
+</body>
+</html>
