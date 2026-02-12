@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BASSIN | Street Luxury</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f5f5f5;
+    color:#111;
+    transition:.3s;
+}
+
+/* DARK MODE */
+body.dark{
+    background:#111;
+    color:#fff;
+}
+
+header{
+    background:#000;
+    color:#fff;
+    text-align:center;
+    padding:30px 20px;
+    position:relative;
+}
+
+header h1{
+    letter-spacing:5px;
+    font-weight:700;
+}
+
+header p{
+    opacity:.7;
+    margin-top:5px;
+}
+
+.toggle{
+    position:absolute;
+    right:20px;
+    top:20px;
+    padding:8px 15px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.search{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.search input{
+    width:280px;
+    padding:12px;
+    border-radius:25px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+/* PRODUTOS */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+body.dark .card{
+    background:#1e1e1e;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.card h3{
+    margin:15px 0 5px;
+}
+
+.price{
+    font-weight:600;
+    font-size:18px;
+}
+
+.card button{
+    margin-top:15px;
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    background:#000;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* CARRINHO */
+.cart{
+    margin-top:60px;
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+body.dark .cart{
+    background:#1e1e1e;
+}
+
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.cart-item button{
+    background:#e74c3c;
+    border:none;
+    color:#fff;
+    padding:5px 10px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.total{
+    margin-top:15px;
+    font-weight:700;
+    font-size:20px;
+}
+
+.checkout{
+    margin-top:15px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    background:#25d366;
+    color:#fff;
+    cursor:pointer;
+}
+
+footer{
+    margin-top:60px;
+    text-align:center;
+    padding:20px;
+    background:#000;
+    color:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>BASSIN</h1>
+    <p>Sneakers • Apparel • Watches</p>
+    <button class="toggle" onclick="toggleMode()">Modo</button>
+</header>
+
+<div class="container">
+
+<div class="search">
+    <input type="text" id="search" placeholder="Buscar produto..." onkeyup="filterProducts()">
+</div>
+
+<div class="grid" id="products"></div>
+
+<div class="cart">
+    <h2>🛒 Carrinho</h2>
+    <div id="cartItems"></div>
+    <div class="total">Total: R$ <span id="total">0.00</span></div>
+    <button class="checkout" onclick="checkout()">Finalizar no WhatsApp</button>
+</div>
+
+</div>
+
+<footer>
+© 2026 BASSIN — Street Luxury Experience
+</footer>
+
+<script>
+const products = [
+{
+    name:"Nike Air Jordan",
+    price:799.90,
+    image:"https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=800"
+},
+{
+    name:"Relógio Premium Black",
+    price:1299.90,
+    image:"https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800"
+},
+{
+    name:"Camiseta Street Oversized",
+    price:179.90,
+    image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800"
+},
+{
+    name:"Boné Urban Style",
+    price:149.90,
+    image:"https://images.unsplash.com/photo-1588854337115-1c67d9247e4d?w=800"
+},
+{
+    name:"Jaqueta Premium Tech",
+    price:499.90,
+    image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800"
+}
+];
+
+let cart = [];
+
+function renderProducts(list = products){
+    const container = document.getElementById("products");
+    container.innerHTML = "";
+
+    list.forEach(product => {
+        container.innerHTML += `
+        <div class="card">
+            <img src="${product.image}">
+            <h3>${product.name}</h3>
+            <div class="price">R$ ${product.price.toFixed(2)}</div>
+            <button onclick="addToCart('${product.name}', ${product.price})">
+                Adicionar
+            </button>
+        </div>`;
+    });
+}
+
+function addToCart(name, price){
+    cart.push({name, price});
+    updateCart();
+}
+
+function updateCart(){
+    const container = document.getElementById("cartItems");
+    container.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price;
+        container.innerHTML += `
+        <div class="cart-item">
+            <span>${item.name} - R$ ${item.price.toFixed(2)}</span>
+            <button onclick="removeItem(${index})">X</button>
+        </div>`;
+    });
+
+    document.getElementById("total").innerText = total.toFixed(2);
+}
+
+function removeItem(index){
+    cart.splice(index,1);
+    updateCart();
+}
+
+function filterProducts(){
+    const value = document.getElementById("search").value.toLowerCase();
+    const filtered = products.filter(p =>
+        p.name.toLowerCase().includes(value)
+    );
+    renderProducts(filtered);
+}
+
+function checkout(){
+    if(cart.length === 0){
+        alert("Carrinho vazio");
+        return;
+    }
+
+    let message = "Olá, quero finalizar minha compra:%0A";
+    let total = 0;
+
+    cart.forEach(item => {
+        message += `- ${item.name} (R$ ${item.price.toFixed(2)})%0A`;
+        total += item.price;
+    });
+
+    message += `%0ATotal: R$ ${total.toFixed(2)}`;
+
+    window.open("https://wa.me/5599999999999?text=" + message, "_blank");
+}
+
+function toggleMode(){
+    document.body.classList.toggle("dark");
+}
+
+renderProducts();
+</script>
+
+</body>
+</html>
